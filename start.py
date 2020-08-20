@@ -18,7 +18,7 @@ class Ship(pygame.sprite.Sprite):
         self.image = pygame.Surface([50,25])
         self.image.fill(green)
         self.rect = self.image.get_rect()
-        self.live = 5
+        self.lives = 5
 
     def draw(self):
         win.blit(self.image, (self.rect.x, self.rect.y))
@@ -137,6 +137,16 @@ while run:
         for bunker in bunker_list:
             if missile.rect.colliderect(bunker.rect):
                 missile_list.remove(missile)
+                bunker_list.remove(bunker)
+
+    for bomb in bomb_list:
+        if bomb.rect.colliderect(ship.rect):
+            bomb_list.remove(bomb)
+            ship.lives -= 1
+
+        for bunker in bunker_list:
+            if bomb.rect.colliderect(bunker.rect):
+                bomb_list.remove(bomb)
                 bunker_list.remove(bunker)
     redraw()
 

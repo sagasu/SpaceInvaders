@@ -5,8 +5,7 @@ pygame.init()
 
 win = pygame.display.set_mode((750,750))
 
-pygame.display.set_capacity('Space Invaders')
-
+pygame.display.set_caption('Space Invaders')
 
 class Ship(pygame.sprite.Sprite):
     def __init__(self):
@@ -19,8 +18,9 @@ def redraw():
     pygame.display.update()
 
 white = (255, 255, 255)
-green = (0, 255, 255)
-black = (255, 0, 0)
+green = (0, 255, 0)
+red = (255, 0, 0)
+black = (0,0,0)
 
 run = True
 
@@ -31,3 +31,5 @@ while run:
             run = False
     
     redraw()
+
+pygame.quit()

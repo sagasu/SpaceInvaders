@@ -90,6 +90,8 @@ def redraw():
     bunker_list.draw(win)
     missile_list.update()
     missile_list.draw(win)
+    bomb_list.update()
+    bomb_list.draw(win)
     pygame.display.update()
     
 
@@ -115,6 +117,27 @@ while run:
             missile.rect.y = ship.rect.y
             missile_list.add(missile)
 
+    shoot_chance = random.randint(1, 100)
+    if shoot_chance < 25:
+        if len(enemy_list) > 0:
+            random_enemy = random.choice(enemy_list.sprites())
+            bomb = Bomb()
+            bomb.rect.x = random_enemy.rect.x + 12
+            bomb.rect.y = random_enemy.rect.y + 25
+            bomb_list.add(bomb)
+
+    for missile in missile_list:
+        if missile.rect.y < -10:
+            missile_list.remove(missile)
+        for enemy in enemy_list:
+            if missile.rect.colliderect(enemy.rect):
+                missile_list.remove(missile)
+                enemy_list.remove(enemy)
+
+        for bunker in bunker_list:
+            if missile.rect.colliderect(bunker.rect):
+                missile_list.remove(missile)
+                bunker_list.remove(bunker)
     redraw()
 
 pygame.quit()

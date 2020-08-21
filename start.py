@@ -29,6 +29,18 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.Surface([25,25])
         self.image.fill(white)
         self.rect = self.image.get_rect()
+        self.group_rect = pygame.Rect(130, 75, 500, 250)
+        self.direction = 5
+
+    def update(self):
+        self.rect.x += self.direction
+        self.group_rect.x += self.direction
+        if self.group_rect.x + 500 >= 725:
+            self.direction = - self.direction
+
+        if self.group_rect.x <= 25:
+            self.direction = -self.direction
+            self.rect.y += 5
 
 class Bunker(pygame.sprite.Sprite):
     def __init__(self):
@@ -85,7 +97,19 @@ for bunk in range(3):
 
 def redraw():
     win.fill(black)
+    bottom = pygame.draw.rect(win, green, (50, 700, 650, 5))
+
+    for i in range(ship.lives):
+        pygame.draw.rect(win, red, (50 + (i *130), 715, 130, 13))
+
+    font = pygame.font.SysFont('Time New Roman', 30)
+    text = font.render('Space Invaders', False, white)
+    textRect = text.get_rect()
+    textRect.center = (750//2, 25)
+    win.blit(text, textRect)
+
     ship.draw()
+    enemy_list.update()
     enemy_list.draw(win)
     bunker_list.draw(win)
     missile_list.update()
@@ -140,6 +164,8 @@ while run:
                 bunker_list.remove(bunker)
 
     for bomb in bomb_list:
+        if bomb.rect.y > 750:
+            bomb_list.remove(bomb)
         if bomb.rect.colliderect(ship.rect):
             bomb_list.remove(bomb)
             ship.lives -= 1
@@ -148,6 +174,8 @@ while run:
             if bomb.rect.colliderect(bunker.rect):
                 bomb_list.remove(bomb)
                 bunker_list.remove(bunker)
+    if ship.lives < 0 or len(enemy_list) == 0:
+        run = False
     redraw()
 
 pygame.quit()

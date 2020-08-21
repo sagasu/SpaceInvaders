@@ -7,6 +7,8 @@ win = pygame.display.set_mode((750,750))
 
 pygame.display.set_caption('Space Invaders')
 
+bg = pygame.image.load('bgImg.png')
+
 white = (255, 255, 255)
 green = (0, 255, 0)
 red = (255, 0, 0)
@@ -15,8 +17,7 @@ black = (0,0,0)
 class Ship(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([50,25])
-        self.image.fill(green)
+        self.image = pygame.image.load('ship.png')
         self.rect = self.image.get_rect()
         self.lives = 5
 
@@ -26,8 +27,7 @@ class Ship(pygame.sprite.Sprite):
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([25,25])
-        self.image.fill(white)
+        self.image = pygame.image.load('spaceInvader.png')
         self.rect = self.image.get_rect()
         self.group_rect = pygame.Rect(130, 75, 500, 250)
         self.direction = 5
@@ -96,7 +96,7 @@ for bunk in range(3):
             bunker_list.add(bunker)
 
 def redraw():
-    win.fill(black)
+    win.blit(bg, (0,0))
     bottom = pygame.draw.rect(win, green, (50, 700, 650, 5))
 
     for i in range(ship.lives):

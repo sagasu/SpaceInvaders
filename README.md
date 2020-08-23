@@ -5,4 +5,6 @@ Space invaders game:
 
 # Dependencies
 Install pygame:  
-`conda install -c cogsci pygame`
+`conda install -c cogsci pygame`  
+
+When writing this code python 2.7.18 was used and pygame 1.9.2a0.
